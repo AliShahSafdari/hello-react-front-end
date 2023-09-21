@@ -1,23 +1,24 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+/* eslint-disable no-param-reassign */
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
 
 const fetchGreeting = createAsyncThunk('greet', async () => {
-  const response = await axios.get("http://[::1]:3000/random_greeting");
-  const greeting = response.data.greeting;
+  const response = await axios.get('http://[::1]:3000/random_greeting');
+  const { greeting } = response.data;
   return greeting;
 });
 
 const greetingSlice = createSlice({
-  name: "greeting",
+  name: 'greeting',
   initialState: {
-    greeting: ""
+    greeting: '',
   },
 
   extraReducers: (builder) => {
     builder.addCase(fetchGreeting.fulfilled, (state, action) => {
       state.loading = false;
       state.greeting = action.payload;
-    })
+    });
   },
 });
 
